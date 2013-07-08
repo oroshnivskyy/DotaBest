@@ -1,0 +1,118 @@
+*{
+    margin: 0;
+    padding: 0
+}
+body{
+    font: 14px/18px Verdana;
+}
+h1{
+    font-size: 26px;
+    margin-bottom: 20px;
+    font-weight: normal;
+    line-height: 30px;
+    width: 100%;
+}
+p{
+    margin: 0 0 15px;
+}
+ul{
+    margin: 0 0 15px 30px;
+}
+blockqoute{
+    padding: 0 0 0 20px;
+    border-left: 2px solid #999;
+    color: #333;
+    display: block;
+}
+hr{
+    border: none;
+    color: black;
+    background-color: black;
+    height: 1px;
+}
+#container{
+    width: 980px;
+    margin: 30px auto;
+    height: 600px;
+}
+#container .left{
+    width: 780px;
+    float: left;
+}
+#container .right{
+    width: 180px;
+    float: right;
+}
+#social_block{
+    width: 180px;
+    display: none;
+}
+#vk_sharer, #fb_sharer, #tw_sharer{
+    height: 45px;
+}
+#tw_sharer{
+    height: 30px;
+}
+#vk_sharer span, #fb_sharer span, #tw_sharer span{
+    width: 80px;
+    display: block;
+    float: left;
+    text-align: right;
+    margin-right: 15px;
+    font-size: 23px;
+}
+#social_block #vk_sharer a{
+    background: url("../images/vk_button.png") no-repeat scroll 0 0 transparent;
+    color: #ffffff;
+    display: block;
+    float: left;
+    font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+    font-size: 10px;
+    height: 17px;
+    line-height: 16px;
+    padding-left: 1px;
+    text-decoration: none !important;
+    width: 70px;
+}
+#social_block #fb_sharer a{
+    background: url("../images/fb_button.png") no-repeat scroll 0 0 transparent;
+    color: #FFFFFF;
+    display: block;
+    float: left;
+    font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+    font-size: 10px;
+    height: 17px;
+    line-height: 16px;
+    padding-right: 2px;
+    text-align: right;
+    text-decoration: none !important;
+    width: 62px;
+}
+#social_block #tw_sharer a{
+    background: url("../images/tw_button.png") no-repeat scroll 0 0 transparent;
+    color: #ffffff;
+    display: block;
+    float: left;
+    font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+    font-size: 10px;
+    height: 17px;
+    line-height: 16px;
+    padding-left: 1px;
+    text-align: center;
+    text-decoration: none !important;
+    width: 64px;
+}
+#total_count{
+    width: 80px;
+    text-align: right;
+    font-size: 23px;
+    margin-top: 12px;
+}
+
+.separator {
+    clear: both;
+}
+
+.hidden {
+    display: none;
+}
