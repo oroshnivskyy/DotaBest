@@ -36,7 +36,6 @@ class Router
     {
 
         $method = strtoupper($_SERVER['REQUEST_METHOD']);
-        //$path = $_SERVER['REQUEST_URI'];
 
         if ((isset($_GET['debug_enabled'])&&$_GET['debug_enabled']==1)) {
             $path = self::getUrlWithout(array('debug_enabled'));
@@ -59,7 +58,7 @@ class Router
                     } else {
                         throw new BadMethodCallException("Method, $method, not supported.");
                     }
-                } else { var_dump($class);die;
+                } else {
                     throw new Exception("Class, $class, not found.");
                 }
                 break;

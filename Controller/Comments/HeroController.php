@@ -1,9 +1,15 @@
-
 <?php
+namespace Comments;
 
-   class Comments_HeroController extends EngineController{
-       function GET() {
-           return $this->render('Comments/index.php', array());
-       }
-   }
+use EngineController;
+use Database;
+use PDO;
+
+class HeroController extends EngineController
+{
+    function GET()
+    {
+        return $this->render('Comments/index.php', array());
+    }
+}
 

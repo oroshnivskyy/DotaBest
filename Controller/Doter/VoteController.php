@@ -1,21 +1,21 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: oleg
- * Date: 7/25/12
- * Time: 9:59 PM
- *
- */
-class Doter_VoteController extends EngineController
+namespace Doter;
+
+use EngineController;
+use Database;
+use PDO;
+
+class VoteController extends EngineController
 {
-    function GET($request){
-        $doter_id=$request['id'];
+    function GET($request)
+    {
+        $doter_id = $request['id'];
 
         $isUserQuery = Database::getConnection()->pdo->prepare('SELECT team_id FROM user WHERE id=:user_id');
         $isUserQuery->bindParam('user_id', $doter_id, PDO::PARAM_INT);
         $isUserQuery->execute();
-        $user_team=$isUserQuery->fetch();
-        if(!$user_team){
+        $user_team = $isUserQuery->fetch();
+        if (!$user_team) {
             $this->redirect('/best');
         }
 
@@ -25,9 +25,9 @@ class Doter_VoteController extends EngineController
         $hadVoteQuery->bindParam('user_id', $doter_id, PDO::PARAM_INT);
         $hadVoteQuery->bindParam('user_ip', $userIP, PDO::PARAM_STR);
         $hadVoteQuery->execute();
-        $has_voted=$hadVoteQuery->fetch(PDO::FETCH_NUM);
+        $has_voted = $hadVoteQuery->fetch(PDO::FETCH_NUM);
 
-        if(!$has_voted){
+        if (!$has_voted) {
             $sql = "UPDATE user SET score=score+1 WHERE id=:id";
             $pdo = Database::getConnection()->pdo->prepare($sql);
             $pdo->bindParam('id', $doter_id, PDO::PARAM_INT);
@@ -39,11 +39,11 @@ class Doter_VoteController extends EngineController
                 $pdo->execute();
                 $voteSql = "INSERT vote_doter ( user_id, user_ip) VALUES (:user_id, :user_ip)";
                 $pdo = Database::getConnection()->pdo->prepare($voteSql);
-                $pdo->execute(array( 'user_id' => $doter_id, 'user_ip' => $userIP));
-                $this->redirect('/player/'.$doter_id);
+                $pdo->execute(array('user_id' => $doter_id, 'user_ip' => $userIP));
+                $this->redirect('/player/' . $doter_id);
             }
-        }else{
-            $this->redirect('/player/'.$doter_id);
+        } else {
+            $this->redirect('/player/' . $doter_id);
         }
     }
 }

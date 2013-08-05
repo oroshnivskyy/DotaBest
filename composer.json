@@ -1,0 +1,15 @@
+{
+    "require": {
+        "illuminate/database": "v4.0.6"
+    },
+    "autoload": {
+        "psr-0": { "": ["lib", "Controller"] }
+    },
+    "scripts": {
+    },
+    "config": {
+    },
+    "minimum-stability": "dev",
+    "extra": {
+    }
+}

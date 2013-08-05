@@ -1,13 +1,12 @@
 <?php
+namespace Page;
 
-/**
- * This is controller
- * @author Andre Linoge
- * @package
- */
-//namespace Page;
-//use \EngineController as BaseController;
-class Page_IndexController extends EngineController{
+use EngineController;
+use Database;
+use PDO;
+
+class IndexController extends EngineController
+{
     const HERO_A = 0;
     const HERO_B = 1;
 
@@ -19,64 +18,72 @@ class Page_IndexController extends EngineController{
     protected $_bestBattles2lvl;
 
 
-    function GET() {
-        
-        $metaTags = array('title'=>'Всенародная голосовалка за героев Доты 2. Поднимы своего любимого героя к верхней позиции','description'=>'Герои Доты 2 собраны в одном месте для того что б пользователи моглы написать про них отзывы а также занять первое место в турниной таблице сайта dota2best.com');
-        
+    function GET()
+    {
+
+        $metaTags = array(
+            'title' => 'Всенародная голосовалка за героев Доты 2. Поднимы своего любимого героя к верхней позиции',
+            'description' => 'Герои Доты 2 собраны в одном месте для того что б пользователи моглы написать про них отзывы а также занять первое место в турниной таблице сайта dota2best.com'
+        );
+
         $this->loadBestHeroAndBattle();
-        $bestHero           = $this->getBestHero();
-        $bestBattle         = $this->getBestBattle();
+        $bestHero = $this->getBestHero();
+        $bestBattle = $this->getBestBattle();
 
-        $heroesId           = $this->getBestHeroesId();
+        $heroesId = $this->getBestHeroesId();
         $this->_bestHeroesId = array();
-        $bestBattles2lvl    = $this->getBestPreviousBattles( $heroesId );
-        $heroesId           = $this->getBestHeroesId();
-        $bestBattles3lvl    = $this->getBestPreviousBattles($heroesId);
+        $bestBattles2lvl = $this->getBestPreviousBattles($heroesId);
+        $heroesId = $this->getBestHeroesId();
+        $bestBattles3lvl = $this->getBestPreviousBattles($heroesId);
 
-        $bestHeroScore      = $this->getBestHeroScore();
+        $bestHeroScore = $this->getBestHeroScore();
         return $this->render(
             'Page/index.php',
             array(
-                'bestHero'          => $bestHero,
-                'bestBattle'        => $bestBattle,
-                'bestBattles2lvl'   => $bestBattles2lvl,
-                'bestBattles3lvl'   => $bestBattles3lvl,
-                'bestHeroScore'     => $bestHeroScore,
-                
-                'metaTags'=>$metaTags
+                'bestHero' => $bestHero,
+                'bestBattle' => $bestBattle,
+                'bestBattles2lvl' => $bestBattles2lvl,
+                'bestBattles3lvl' => $bestBattles3lvl,
+                'bestHeroScore' => $bestHeroScore,
+                'metaTags' => $metaTags
             )
         );
     }
 
-    public function getBestHero() {
-        if ( is_null( $this->_bestHero ) ) {
+    public function getBestHero()
+    {
+        if (is_null($this->_bestHero)) {
             throw new Exception('Load best hero first');
         }
         return $this->_bestHero;
     }
 
-    public function getBestHeroesId() {
-        if ( is_null( $this->_bestHeroesId ) ) {
+    public function getBestHeroesId()
+    {
+        if (is_null($this->_bestHeroesId)) {
             throw new Exception('Load best hero first');
         }
         return $this->_bestHeroesId;
     }
 
-    public function getBestBattle() {
-        if ( is_null( $this->_bestBattle ) ) {
+    public function getBestBattle()
+    {
+        if (is_null($this->_bestBattle)) {
             throw new Exception('Load best match first');
         }
         return $this->_bestBattle;
     }
 
-    public function getExcludeBattlesId() {
-        if ( is_null( $this->_excludeBattlesId ) ) {
+    public function getExcludeBattlesId()
+    {
+        if (is_null($this->_excludeBattlesId)) {
             throw new Exception('Load best match first');
         }
         return $this->_excludeBattlesId;
     }
 
-    public function loadBestHeroAndBattle() {
+    public function loadBestHeroAndBattle()
+    {
 
         $sql = '
         (SELECT hero_battles.id AS battle_id, hero_battles.score_a,
@@ -99,42 +106,44 @@ class Page_IndexController extends EngineController{
 
         $heroesInfo = $pdo->fetchAll();
 
-        if ( $heroesInfo[ self::HERO_A ]['score_a'] >= $heroesInfo[ self::HERO_B ]['score_b'] ) {
-            $this->_bestBattle = $heroesInfo[ self::HERO_A ];
+        if ($heroesInfo[self::HERO_A]['score_a'] >= $heroesInfo[self::HERO_B]['score_b']) {
+            $this->_bestBattle = $heroesInfo[self::HERO_A];
             $bestHero = array(
-                'hero_id'       => $heroesInfo[ self::HERO_A ]['hero_id_a'],
-                'hero_image'    => $heroesInfo[ self::HERO_A ]['image_a'],
-                'hero_name'     => $heroesInfo[ self::HERO_A ]['name_a']
+                'hero_id' => $heroesInfo[self::HERO_A]['hero_id_a'],
+                'hero_image' => $heroesInfo[self::HERO_A]['image_a'],
+                'hero_name' => $heroesInfo[self::HERO_A]['name_a']
             );
         } else {
-            $this->_bestBattle = $heroesInfo[ self::HERO_B ];
+            $this->_bestBattle = $heroesInfo[self::HERO_B];
             $bestHero = array(
-                'hero_id'       => $heroesInfo[ self::HERO_B ]['hero_id_b'],
-                'hero_image'    => $heroesInfo[ self::HERO_B ]['image_b'],
-                'hero_name'     => $heroesInfo[ self::HERO_B ]['name_b']
+                'hero_id' => $heroesInfo[self::HERO_B]['hero_id_b'],
+                'hero_image' => $heroesInfo[self::HERO_B]['image_b'],
+                'hero_name' => $heroesInfo[self::HERO_B]['name_b']
             );
         }
 
-        $this->_excludeBattlesId[] = $heroesInfo[ self::HERO_A ]['battle_id'];
-        $this->_excludeBattlesId[] = $heroesInfo[ self::HERO_B ]['battle_id'];
+        $this->_excludeBattlesId[] = $heroesInfo[self::HERO_A]['battle_id'];
+        $this->_excludeBattlesId[] = $heroesInfo[self::HERO_B]['battle_id'];
         $this->_bestHero = $bestHero;
         $this->_bestHeroesId[] = $this->_bestBattle['hero_id_a'];
         $this->_bestHeroesId[] = $this->_bestBattle['hero_id_b'];
-        
+
         return;
     }
 
-    public function getBestPreviousBattles( $heroesId ) {
-        $excludeBattlesId = implode( ',', $this->getExcludeBattlesId() );
-        $count=count($heroesId);
-        for($i=0;$i<$count;$i++) {
-            $battles[] = $this->getBestBattleFromPairs( $this->getBestBattleForHero( $heroesId[$i], $excludeBattlesId ) );
+    public function getBestPreviousBattles($heroesId)
+    {
+        $excludeBattlesId = implode(',', $this->getExcludeBattlesId());
+        $count = count($heroesId);
+        for ($i = 0; $i < $count; $i++) {
+            $battles[] = $this->getBestBattleFromPairs($this->getBestBattleForHero($heroesId[$i], $excludeBattlesId));
         }
 
         return $battles;
     }
 
-    protected function getBestBattleForHero( $heroId, $excludeBattlesId ) {
+    protected function getBestBattleForHero($heroId, $excludeBattlesId)
+    {
         $sql = "
         (SELECT hero_battles.id AS battle_id, hero_battles.score_a,
             hero_battles.score_b, hero_battles.hero_id_a, hero_battles.hero_id_b,
@@ -157,39 +166,41 @@ class Page_IndexController extends EngineController{
         LIMIT 0,1 )
         ";
         $pdo = Database::getConnection()->pdo->prepare($sql);
-        $pdo->bindParam( 'heroId', $heroId, PDO::PARAM_INT );
+        $pdo->bindParam('heroId', $heroId, PDO::PARAM_INT);
         $pdo->execute();
         $battlesInfo = $pdo->fetchAll();
 
-        foreach($battlesInfo as $battleI){
-            $this->_excludeBattlesId[]=$battleI['battle_id'];
+        foreach ($battlesInfo as $battleI) {
+            $this->_excludeBattlesId[] = $battleI['battle_id'];
         }
 
         return $battlesInfo;
     }
 
-    protected function getBestBattleFromPairs( $battlesInfo ) {
+    protected function getBestBattleFromPairs($battlesInfo)
+    {
         $resultBattle = array();
-        if ( count( $battlesInfo ) == 1 ) {
-            $resultBattle = $battlesInfo[ 0 ]; // in any case it is array in array
+        if (count($battlesInfo) == 1) {
+            $resultBattle = $battlesInfo[0]; // in any case it is array in array
         } else {
-            if ( $battlesInfo[ self::HERO_A ][ 'score_a' ] > $battlesInfo[ self::HERO_B ][ 'score_b' ] ) {
-                $resultBattle = $battlesInfo[ self::HERO_A ];
+            if ($battlesInfo[self::HERO_A]['score_a'] > $battlesInfo[self::HERO_B]['score_b']) {
+                $resultBattle = $battlesInfo[self::HERO_A];
             } else {
-                $resultBattle = $battlesInfo[ self::HERO_B ];
+                $resultBattle = $battlesInfo[self::HERO_B];
             }
         }
 
         // add best opponents for further searches
-        $this->_bestHeroesId[] = $resultBattle[ 'hero_id_a' ];
-        $this->_bestHeroesId[] = $resultBattle[ 'hero_id_b' ];
+        $this->_bestHeroesId[] = $resultBattle['hero_id_a'];
+        $this->_bestHeroesId[] = $resultBattle['hero_id_b'];
 
         return $resultBattle;
     }
 
-    protected function getBestHeroScore() {
+    protected function getBestHeroScore()
+    {
         $bestHero = $this->getBestHero();
-        $bestHeroId = $bestHero[ 'hero_id' ];
+        $bestHeroId = $bestHero['hero_id'];
 
         $sql = '
         SELECT  score_a, score_b, hero_id_a, hero_id_b
@@ -197,23 +208,25 @@ class Page_IndexController extends EngineController{
         WHERE hero_id_a = :heroId OR hero_id_b = :heroId
         ';
         $pdo = Database::getConnection()->pdo->prepare($sql);
-        $pdo->bindParam( 'heroId', $bestHeroId, PDO::PARAM_INT );
+        $pdo->bindParam('heroId', $bestHeroId, PDO::PARAM_INT);
         $pdo->execute();
 
         $heroeScores = $pdo->fetchAll();
         $summaryScore = 0;
-        foreach( $heroeScores as $score ) {
-            if ( $score[ 'hero_id_a' ] == $bestHeroId ) {
-                $summaryScore += $score[ 'score_a' ];
+        foreach ($heroeScores as $score) {
+            if ($score['hero_id_a'] == $bestHeroId) {
+                $summaryScore += $score['score_a'];
             } else {
-                $summaryScore += $score[ 'score_b' ];
+                $summaryScore += $score['score_b'];
             }
         }
         return $summaryScore;
     }
-    public function var_export( $var ) {
+
+    public function var_export($var)
+    {
         echo '<pre>';
-        var_export( $var );
+        var_export($var);
         echo '</pre>';
         exit;
     }

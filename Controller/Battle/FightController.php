@@ -1,13 +1,11 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: oleg
- * Date: 7/23/12
- * Time: 11:16 AM
- *
- */
+namespace Battle;
 
-class Battle_FightController extends EngineController
+use EngineController;
+use Database;
+use PDO;
+
+class FightController extends EngineController
 {
     function GET($request)
     {
@@ -23,7 +21,7 @@ class Battle_FightController extends EngineController
         $battleQuery->bindParam('battle_id', $battle_id, PDO::PARAM_INT);
         $battleQuery->bindParam('user_ip', $userIP, PDO::PARAM_STR);
         $battleQuery->execute();
-        $is_battle=$battleQuery->fetch(PDO::FETCH_NUM);
+        $is_battle = $battleQuery->fetch(PDO::FETCH_NUM);
         if (!$is_battle) {
             $sql = "UPDATE hero_battles SET score_{$hero_letter}=score_{$hero_letter}+1 WHERE id=:id";
             $pdo = Database::getConnection()->pdo->prepare($sql);

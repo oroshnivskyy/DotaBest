@@ -18,8 +18,7 @@ if (in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1','::1'))||(isset($_GET['
 
     DEFINE('DEBUG', FALSE);
 }
-require_once 'lib/loader.php';
-require_once  'lib/Router.php';
+require 'vendor/autoload.php';
 /**
  * Examples:
  * '/' => 'index',
@@ -29,28 +28,28 @@ require_once  'lib/Router.php';
  * '/about.html' => 'about'
  */
 $urls = array(
-    '/' => 'Page_IndexController',
-    '/heroes' => 'Hero_AllController',
-    '/guestbook' => 'Page_GuestbookController',
-    '/hero/(\d+)' => 'Hero_IndexController',
-    '/fight/(\d+)/(\d+)'=>'Battle_FightController',
-    '/battle/(\d+)' => 'Battle_IndexController',
+    '/' => 'Page\IndexController',
+    '/heroes' => 'Hero\AllController',
+    '/guestbook' => 'Page\GuestbookController',
+    '/hero/(\d+)' => 'Hero\IndexController',
+    '/fight/(\d+)/(\d+)'=>'Battle\FightController',
+    '/battle/(\d+)' => 'Battle\IndexController',
 
-    '/comments/battle/(\d+)' => 'Comments_BattleController',
+    '/comments/battle/(\d+)' => 'Comments\BattleController',
 
-    '/admin_panel' => 'Admin_IndexController',
-    '/admin/create_batles' => 'Admin_CreatebattlesController',
-    '/admin/hero/edit/(\d+)' => 'Admin_HeroeditController',
-    '/admin/hero/add' => 'Admin_HeroaddController',
-    '/best'=>'Doter_ListController',
-    '/player/vote/(?P<id>\d+)' =>'Doter_VoteController',
-    '/player/(?P<id>\d+)' =>'Doter_PlayerController',
-    '/comments/doter/(\d+)' => 'Comments_DoterController',
+    '/admin_panel' => 'Admin\IndexController',
+    '/admin/create_batles' => 'Admin\CreatebattlesController',
+    '/admin/hero/edit/(\d+)' => 'Admin\HeroeditController',
+    '/admin/hero/add' => 'Admin\HeroaddController',
+    '/best'=>'Doter\ListController',
+    '/player/vote/(?P<id>\d+)' =>'Doter\VoteController',
+    '/player/(?P<id>\d+)' =>'Doter\PlayerController',
+    '/comments/doter/(\d+)' => 'Comments\DoterController',
     
 );
 try {
     echo Router::stick($urls);
 } catch (Exception $e) {
-    Error_Error404::show($e->getMessage());
+    \Error\Error404::show($e->getMessage());
 }
  
