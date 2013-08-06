@@ -6,9 +6,23 @@
  * @package
  */
 class EngineController {
+    /**
+     * @var \Illuminate\Container\Container $container
+     */
+    private $container;
+    public function __construct($container){
+        $this->container = $container;
+    }
+
+    /**
+     * @return \Illuminate\Container\Container
+     */
+    protected function getContainer(){
+        return $this->container;
+    }
 
     public static function render($path, $parameters = false) {
-        $template_dir = BASE_PATH . DIRECTORY_SEPARATOR . 'templates';
+        $template_dir = BASE_PATH . DIRECTORY_SEPARATOR. 'app'. DIRECTORY_SEPARATOR . 'templates';
         $path = $template_dir . DIRECTORY_SEPARATOR . $path;
         ob_start();
         if ($parameters) {

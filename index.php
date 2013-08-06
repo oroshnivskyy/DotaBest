@@ -19,36 +19,18 @@ if (in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1','::1'))||(isset($_GET['
     DEFINE('DEBUG', FALSE);
 }
 require 'vendor/autoload.php';
-/**
- * Examples:
- * '/' => 'index',
- *  '/(?P<number>\d+)' => 'index' ---- $request['number']
- * '/(\d+)' => 'index' --- $request[1]
- * '/article/[a-zA-Z0-9]+.html' => 'article'
- * '/about.html' => 'about'
- */
-$urls = array(
-    '/' => 'Page\IndexController',
-    '/heroes' => 'Hero\AllController',
-    '/guestbook' => 'Page\GuestbookController',
-    '/hero/(\d+)' => 'Hero\IndexController',
-    '/fight/(\d+)/(\d+)'=>'Battle\FightController',
-    '/battle/(\d+)' => 'Battle\IndexController',
+$container = new \Illuminate\Container\Container();
+$dbConfig = include 'app/config/database.php';
 
-    '/comments/battle/(\d+)' => 'Comments\BattleController',
-
-    '/admin_panel' => 'Admin\IndexController',
-    '/admin/create_batles' => 'Admin\CreatebattlesController',
-    '/admin/hero/edit/(\d+)' => 'Admin\HeroeditController',
-    '/admin/hero/add' => 'Admin\HeroaddController',
-    '/best'=>'Doter\ListController',
-    '/player/vote/(?P<id>\d+)' =>'Doter\VoteController',
-    '/player/(?P<id>\d+)' =>'Doter\PlayerController',
-    '/comments/doter/(\d+)' => 'Comments\DoterController',
-    
-);
+$connFactory = new \Illuminate\Database\Connectors\ConnectionFactory($container);
+$conn = $connFactory->make($dbConfig);
+$resolver = new \Illuminate\Database\ConnectionResolver();
+$resolver->addConnection('default', $conn);
+$resolver->setDefaultConnection('default');
+\Illuminate\Database\Eloquent\Model::setConnectionResolver($resolver);
+$urls = include 'app/routes.php';
 try {
-    echo Router::stick($urls);
+    echo Router::stick($urls, $container);
 } catch (Exception $e) {
     \Error\Error404::show($e->getMessage());
 }

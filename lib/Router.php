@@ -32,7 +32,7 @@ class Router
      * @throws  BadMethodCallException  Thrown if a corresponding GET,POST is not found
      *
      */
-    static function stick($urls)
+    static function stick($urls, $container)
     {
 
         $method = strtoupper($_SERVER['REQUEST_METHOD']);
@@ -52,7 +52,7 @@ class Router
                 $found = true;
 
                 if (class_exists($class)) {
-                    $obj = new $class;
+                    $obj = new $class($container);
                     if (method_exists($obj, $method)) {
                         return $obj->$method($matches);
                     } else {
