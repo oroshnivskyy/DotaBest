@@ -7,12 +7,10 @@ use PDO;
 
 class IndexController extends EngineController
 {
-    static $hero_id;
 
     function GET($request)
     {
         $hero_id = $request[1];
-        self::$hero_id = $hero_id;
         $sql = 'SELECT * FROM hero
                 WHERE hero.id = ' . (int)$hero_id . ' ';
 
@@ -29,27 +27,24 @@ class IndexController extends EngineController
         $metaTags = array('title' => $hero['name'], 'description' => $hero['description'], 'active_tab' => 'hero_list');
 
 
-        usort($battles, array('Hero_IndexController', "cmp"));
+        usort($battles, function($a, $b) use($hero_id ){
+            if ($hero_id != $a['hero_id_a']) {
+                $t = $a['score_a'];
+                $a['score_a'] = $a['score_b'];
+                $a['score_b'] = $t;
+            }
+            if ($hero_id != $b['hero_id_a']) {
+                $t = $b['score_a'];
+                $b['score_a'] = $b['score_b'];
+                $b['score_b'] = $t;
+            }
+
+            if ($a['score_a'] == $b['score_a']) {
+                return 0;
+            }
+            return ($a['score_a'] < $b['score_a']) ? 1 : -1;
+        });
 
         return $this->render('Hero/index.php', array('metaTags' => $metaTags, 'vars' => $hero, 'battles' => $battles));
-    }
-
-    static function cmp($a, $b)
-    {
-        if (self::$hero_id != $a['hero_id_a']) {
-            $t = $a['score_a'];
-            $a['score_a'] = $a['score_b'];
-            $a['score_b'] = $t;
-        }
-        if (self::$hero_id != $b['hero_id_a']) {
-            $t = $b['score_a'];
-            $b['score_a'] = $b['score_b'];
-            $b['score_b'] = $t;
-        }
-
-        if ($a['score_a'] == $b['score_a']) {
-            return 0;
-        }
-        return ($a['score_a'] < $b['score_a']) ? 1 : -1;
     }
 }
