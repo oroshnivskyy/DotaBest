@@ -1,38 +1,34 @@
 <?php
-
-define('start_time', microtime(true));
-define('BASE_PATH', dirname(__DIR__));
-if (in_array(@$_SERVER['REMOTE_ADDR'], array(
-            '127.0.0.1',
-            '::1',
-        ))) {
-    DEFINE('DEBUG', TRUE);
+if (in_array(
+        @$_SERVER['REMOTE_ADDR'],
+        array('127.0.0.1', '::1')
+    ) || (isset($_GET['debug_enabled']) && $_GET['debug_enabled'] == 1)
+) {
+    if (!isset($_GET['debug_enabled'])) {
+        define('BASE_PATH', __DIR__);
+    } else {
+        define('BASE_PATH', dirname(__DIR__));
+    }
+    DEFINE('DEBUG', true);
     error_reporting(E_ALL);
     ini_set('display_errors', '1');
+    define('start_time', microtime(true));
 } else {
-    DEFINE('DEBUG', FALSE);
+    define('BASE_PATH', __DIR__);
+
+    DEFINE('DEBUG', false);
 }
-require_once __DIR__ . '/../lib/loader.php';
-require_once __DIR__ . '/../lib/Router.php';
-$urls = array(
-    '/' => 'Page_IndexController',
-    '/heroes' => 'Hero_AllController',
-    '/guestbook' => 'Page_GuestbookController',
-    '/hero/(\d+)' => 'Hero_IndexController',
-    '/fight/(\d+)/(\d+)'=>'Battle_FightController',
-    '/battle/(\d+)' => 'Battle_IndexController',
+require 'vendor/autoload.php';
+$container = new \Illuminate\Container\Container();
+$container->offsetSet('app_folder', 'app'.DIRECTORY_SEPARATOR);
+$container->offsetSet('config_folder', $container->offsetGet('app_folder').'config'.DIRECTORY_SEPARATOR);
+$container->offsetSet('templates_folder', $container->offsetGet('app_folder').'templates'.DIRECTORY_SEPARATOR);
+$container = require $container->offsetGet('config_folder').'container.php';
 
-    '/comments/battle/(\d+)' => 'Comments_BattleController',
-
-    '/admin_panel' => 'Admin_IndexController',
-    '/admin/create_batles' => 'Admin_CreatebattlesController',
-    '/admin/hero/edit/(\d+)' => 'Admin_HeroeditController',
-    '/admin/hero/add' => 'Admin_HeroaddController',
-
-);
 try {
-    echo Router::stick($urls);
+    $router = $container->make('router');
+    echo $router->stick();
 } catch (Exception $e) {
-    echo $e->getMessage();
+    \Error\Error404::show($e->getMessage());
 }
  

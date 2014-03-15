@@ -11,22 +11,12 @@ class BattleController extends EngineController
     const TYPE_HERO = 2;
     const TYPE_some = 3;
 
-
-//        function GET($data) {
-//            return $this->renderPartial(
-//                'Comments/battle/commentsList.php',
-//                array(
-//                    'comments' => $this->getComments($data[1], Comments_BattleController::TYPE_BATTLE),
-//                    'owner_id' => $data[1]
-//                )
-//            );
-//        }
     function getCommentsPartial($battle_id)
     {
         return $this->renderPartial(
             'Comments/battle/commentsList.php',
             array(
-                'comments' => self::getComments($battle_id, Comments_BattleController::TYPE_BATTLE),
+                'comments' => self::getComments($battle_id, static::TYPE_BATTLE),
                 'owner_id' => $battle_id
             )
         );

@@ -17,7 +17,7 @@ class DoterController extends EngineController
         return $this->renderPartial(
             'Comments/doter/commentsList.php',
             array(
-                'comments' => self::getComments($doter_id, Comments_DoterController::TYPE_DOTER),
+                'comments' => static::getComments($doter_id, static::TYPE_DOTER),
                 'owner_id' => $doter_id
             )
         );
@@ -38,7 +38,7 @@ class DoterController extends EngineController
             return $this->render(
                 'Comments/doter/commentsList.php',
                 array(
-                    'comments' => $this->getComments($owner_id, Comments_DoterController::TYPE_DOTER),
+                    'comments' => $this->getComments($owner_id, static::TYPE_DOTER),
                     'owner_id' => $owner_id,
                     'user_name' => $user_name,
                     'text' => $text,
@@ -52,7 +52,7 @@ class DoterController extends EngineController
                           INSERT INTO comments (owner_id, type, nick, text, created_at, user_ip) values (?, ?, ?, ?, ?, ?)
                         '
         );
-        $STH->execute(array($owner_id, Comments_DoterController::TYPE_DOTER, $user_name, $text, time(), $ip));
+        $STH->execute(array($owner_id, static::TYPE_DOTER, $user_name, $text, time(), $ip));
 
         self::redirect('/player/' . $owner_id);
     }

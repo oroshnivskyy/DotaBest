@@ -11,7 +11,7 @@ return [
     '/' => 'Page\IndexController',
     '/heroes' => 'Hero\AllController',
     '/guestbook' => 'Page\GuestbookController',
-    '/hero/(\d+)' => 'Hero\IndexController',
+    '/hero/(?P<id>\d+)' => 'Hero\IndexController',
     '/fight/(\d+)/(\d+)'=>'Battle\FightController',
     '/battle/(\d+)' => 'Battle\IndexController',
 
