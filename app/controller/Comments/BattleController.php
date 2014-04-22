@@ -51,7 +51,7 @@ class BattleController extends EngineController
                           INSERT INTO comments (owner_id, type, nick, text, created_at, user_ip) values (?, ?, ?, ?, ?, ?)
                         '
         );
-        $STH->execute(array($owner_id, Comments_BattleController::TYPE_BATTLE, $user_name, $text, time(), $ip));
+        $STH->execute(array($owner_id, self::TYPE_BATTLE, $user_name, $text, time(), $ip));
 
         self::redirect('/battle/' . $owner_id);
     }

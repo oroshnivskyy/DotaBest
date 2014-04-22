@@ -1,0 +1,11 @@
+<?php
+return [
+    'driver' => 'mysql',
+    'host' => 'localhost',
+    'database' => 'hero_battle',
+    'username' => 'root',
+    'password' => '1111',
+    'collation' => 'utf8_general_ci',
+    'charset' => 'utf8',
+    'prefix' => ''
+];
