@@ -22,5 +22,10 @@ set :linked_dirs, %w{vendor}
 # set :keep_releases, 5
 
 namespace :deploy do
-
+  task :update_composer do
+      on roles(:web) do
+          execute "cd #{release_path};php composer.phar update"
+      end
+  end
+  after "deploy", "deploy:update_composer"
 end
