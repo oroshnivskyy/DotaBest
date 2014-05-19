@@ -38,6 +38,18 @@
             </div>
         </div>
         <br/>
+        <div class="row-fluid show-grid">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- dota_best_comment -->
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:580px;height:400px"
+                 data-ad-client="ca-pub-3861532892125732"
+                 data-ad-slot="9021787296"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+        <br/>
         <div class="row-fluid show-grid" >
         <?php echo $comments ?>
             </div>
