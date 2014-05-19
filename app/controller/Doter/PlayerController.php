@@ -22,7 +22,7 @@ class PlayerController extends EngineController
         $hadVoteQuery->bindParam('user_ip', $userIP, PDO::PARAM_STR);
         $hadVoteQuery->execute();
         $has_voted = $hadVoteQuery->fetch(PDO::FETCH_NUM);
-        $commentsController = new Comments_DoterController();
+        $commentsController = new \Comments\DoterController($this->getContainer());
         return $this->render(
             'Doter/player.php',
             array(

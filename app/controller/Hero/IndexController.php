@@ -10,11 +10,8 @@ class IndexController extends EngineController
 
     function GET($request)
     {
-        $hero_id = $request[1];
-        $sql = 'SELECT * FROM hero
-                WHERE hero.id = ' . (int)$hero_id . ' ';
-
-        $hero = Database::getConnection()->pdo->query($sql)->fetch();
+        $hero_id = $request['id'];
+        $hero = \Hero::find((int)$hero_id);
 
         Database::getConnection()->pdo->prepare('UPDATE hero_pattles SET WHERE ');
         $sqlBatt = 'SELECT hero_battles.*, hero_a.name as name_a, hero_a.image as image_a, hero_b.name as name_b, hero_b.image as image_b FROM hero_battles

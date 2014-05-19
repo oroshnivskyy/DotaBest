@@ -11,22 +11,12 @@ class BattleController extends EngineController
     const TYPE_HERO = 2;
     const TYPE_some = 3;
 
-
-//        function GET($data) {
-//            return $this->renderPartial(
-//                'Comments/battle/commentsList.php',
-//                array(
-//                    'comments' => $this->getComments($data[1], Comments_BattleController::TYPE_BATTLE),
-//                    'owner_id' => $data[1]
-//                )
-//            );
-//        }
     function getCommentsPartial($battle_id)
     {
         return $this->renderPartial(
             'Comments/battle/commentsList.php',
             array(
-                'comments' => self::getComments($battle_id, Comments_BattleController::TYPE_BATTLE),
+                'comments' => self::getComments($battle_id, static::TYPE_BATTLE),
                 'owner_id' => $battle_id
             )
         );
@@ -61,7 +51,7 @@ class BattleController extends EngineController
                           INSERT INTO comments (owner_id, type, nick, text, created_at, user_ip) values (?, ?, ?, ?, ?, ?)
                         '
         );
-        $STH->execute(array($owner_id, Comments_BattleController::TYPE_BATTLE, $user_name, $text, time(), $ip));
+        $STH->execute(array($owner_id, self::TYPE_BATTLE, $user_name, $text, time(), $ip));
 
         self::redirect('/battle/' . $owner_id);
     }

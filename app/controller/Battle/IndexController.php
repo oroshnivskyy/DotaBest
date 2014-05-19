@@ -4,6 +4,7 @@ namespace Battle;
 use EngineController;
 use Database;
 use PDO;
+use Comments\BattleController;
 
 class IndexController extends EngineController
 {
@@ -53,7 +54,7 @@ class IndexController extends EngineController
             $battle2Id = $battle2Query->fetchColumn();
         }
 
-        $commentsController = new Comments_BattleController();
+        $commentsController = new BattleController($this->getContainer());
         return $this->render(
             'Battle/index.php',
             array(
