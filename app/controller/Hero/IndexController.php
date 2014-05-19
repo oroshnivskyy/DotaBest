@@ -21,7 +21,9 @@ class IndexController extends EngineController
                     WHERE ( hero_battles.hero_id_a = ' . (int)$hero_id . ' OR hero_battles.hero_id_b = ' . (int)$hero_id . ' )';
         $battles = Database::getConnection()->pdo->query($sqlBatt)->fetchAll();
 
-        $metaTags = array('title' => $hero['name'], 'description' => $hero['description'], 'active_tab' => 'hero_list');
+        $title = $hero['name'].' - герой Дота2. Описание, информация и все возможны рейтинги с '.$hero['name'];
+
+        $metaTags = array('title' => $title, 'description' => $hero['description'], 'active_tab' => 'hero_list');
 
 
         usort($battles, function($a, $b) use($hero_id ){

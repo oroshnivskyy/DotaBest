@@ -64,31 +64,15 @@ $pageTitle = isset($metaTags['title'])?$metaTags['title']:'';?>
                     <li <?php if(isset($metaTags['active_tab'])&&$metaTags['active_tab']=='guest_book'): ?>class="active"<?php endif; ?>><a href="/guestbook">Гостевая книга</a></li>
                 </ul>
                 <ul class="nav">
-                    <li style="padding-top: 10px; padding-left: 5px;">
-                        <!-- Put this div tag to the place, where the Like block will be -->
-                        <div id="vk_like"></div>
-                        <script type="text/javascript">
-                        VK.Widgets.Like("vk_like", {type: "mini",pageUrl:"http://dota2best.com"});
-                        </script>
-                    </li>
-                    <li style="padding-top: 10px; padding-left: 5px;">
-                        <div class="fb-like" data-href="http://dota2best.com" data-send="false" data-layout="button_count" data-width="70" data-show-faces="false" data-font="tahoma"></div>
-                    </li>
-                    <li style="padding-top: 8px; padding-left: 5px;">
-                        <!-- Place this tag where you want the +1 button to render. -->
-                        <div class="g-plusone" data-annotation="inline" data-width="120" data-href="http://dota2best.com"></div>
-
-                        <!-- Place this tag after the last +1 button tag. -->
-                        <script type="text/javascript">
-                        window.___gcfg = {lang: 'ru'};
-
-                        (function() {
-                            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                            po.src = 'https://apis.google.com/js/plusone.js';
-                            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-                        })();
-                        </script>
-                    </li>
+                    <? if (!DEBUG): ?>
+                        <li style="padding-top: 10px; padding-left: 5px;">
+                            <script type="text/javascript" src="//yandex.st/share/share.js"
+                                    charset="utf-8"></script>
+                            <div class="yashare-auto-init" data-yashareL10n="ru"
+                                 data-yashareQuickServices="yaru,vkontakte,facebook,odnoklassniki,moimir,gplus" data-yashareTheme="counter"
+                                ></div>
+                        </li>
+                    <? endif;?>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -131,6 +115,20 @@ $pageTitle = isset($metaTags['title'])?$metaTags['title']:'';?>
             </script>
             <noscript><div><img src="//mc.yandex.ru/watch/16075396" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
             <!-- /Yandex.Metrika counter -->
+        </div>
+        <div>
+            <!--LiveInternet counter--><script type="text/javascript"><!--
+                document.write("<a href='http://www.liveinternet.ru/click' "+
+                    "target=_blank><img src='//counter.yadro.ru/hit?t14.6;r"+
+                    escape(document.referrer)+((typeof(screen)=="undefined")?"":
+                    ";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+                        screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+                    ";"+Math.random()+
+                    "' alt='' title='LiveInternet: number of pageviews for 24 hours,"+
+                    " of visitors for 24 hours and for today is shown' "+
+                    "border='0' width='88' height='31'><\/a>")
+                //--></script><!--/LiveInternet-->
+
         </div>
     </footer>
     </div>
