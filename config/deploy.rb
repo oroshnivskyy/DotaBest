@@ -10,7 +10,7 @@ set :scm, :git
 # set :pty, true
 
 # Default value for :linked_files is []
-# set :linked_files, %w{config/database.yml}
+set :linked_files, %w{app/config/database.php}
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w{vendor}
