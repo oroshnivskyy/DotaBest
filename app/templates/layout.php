@@ -69,7 +69,9 @@ $pageTitle = isset($metaTags['title'])?$metaTags['title']:'';?>
                             <script type="text/javascript" src="//yandex.st/share/share.js"
                                     charset="utf-8"></script>
                             <div class="yashare-auto-init" data-yashareL10n="ru"
-                                 data-yashareQuickServices="yaru,vkontakte,facebook,odnoklassniki,moimir,gplus" data-yashareTheme="counter"
+                                 data-yashareQuickServices="yaru,vkontakte,facebook,odnoklassniki,moimir,gplus"
+                                 data-yashareTheme="counter"
+                                 data-yashareLink="<? echo "http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; ?>"
                                 ></div>
                         </li>
                     <? endif;?>
